@@ -40,7 +40,7 @@
 			var word = "ywc";
 			var words_attr = [];
 
-			var canvas = document.getElementById('floating_words');
+			var canvas = document.getElementById('falling_words');
 			canvas.width = window.innerWidth;
 			canvas.height = window.innerHeight;
 
@@ -49,6 +49,7 @@
 				var show = canvas.getContext('2d');
 				var w = canvas.width;
 				var h = canvas.height;
+				var r, g, b;
 
 				show.shadowColor = "white";
 				show.shadowOffsetX = 3;
@@ -57,14 +58,10 @@
 
 				Word = function(key) 
 				{
-					var r = getRandomInt(0, 255);
-    				var g = getRandomInt(0, 255);
-    				var b = getRandomInt(0, 255);
 					this.x = getRandomInt(0, w);
 					this.y = getRandomInt(10, h);
 					this.font = Math.random() * 300 + 'px arial'
 					this.speed = getRandomInt(1, 25);
-					this.color = "rgb(" + r + "," + g + "," + b + ")";
 					this.text = word;
 				}
 			
@@ -78,9 +75,12 @@
 				{
 					for (var i = 0; i < words_attr.length; i++) 
 					{					
+						r = getRandomInt(0, 255);
+    					g = getRandomInt(0, 255);
+    					b = getRandomInt(0, 255);
 						show.font = words_attr[i].font;
 						show.fillText(words_attr[i].text, words_attr[i].x, words_attr[i].y);
-						show.fillStyle = words_attr[i].color;
+						show.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
 						words_attr[i].width = show.measureText(words_attr[i].text).width;
 					}
 				
@@ -116,7 +116,7 @@
 
 <body>
 	
-	<canvas id='floating_words'></canvas>
+	<canvas id='falling_words'></canvas>
 
 </body>
 </html>
