@@ -1,34 +1,122 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- css zone -->
-<style>
-h1 {
-	color: pink;
-    font-family: courier;
-    font-size: 1000%;
-    /*-webkit-transform: rotate(7deg);*/
-    /*transform: translate3d(100px, 200px, 300px);*/
-}
-h1:hover{
-	color: pink;
-    font-family: courier;
-    font-size: 1000%;
-    /*-webkit-transform: rotate(7deg);*/
-    transform: translate3d(100px, 200px, 300px);
-}
-</style>
-<!-- css zone -->
+	<title>YWC Homework</title>
 
-<link rel="stylesheet" type="text/css" href="http://csshake.surge.sh/csshake.min.css">
+	<style>
+		h1 {
+		    font-family: courier;
+		    font-size: 2000%;
+		}
+
+		/*h1:hover {
+			color: yellow;
+		    font-family: courier;
+		    font-size: 1000%;
+		    -webkit-transform: rotate3d(10, 10, 10, 10deg);
+		    animation-name: changeColor;
+		    animation-duration: 3s;
+		}*/
+
+		@keyframes changeColor {
+		    from {color: LightSalmon;}
+		    to {color: HotPink;}
+		}
+
+		body {
+  			background:#141414;
+  			overflow:hidden;
+		}
+	</style>
+
+	<script>
+	    function getRandomInt(min, max) 
+	    {
+  			return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
+
+	    window.onload = function(argument) 
+	    {
+			var word = "ywc";
+			var words_attr = [];
+
+			var canvas = document.getElementById('floating_words');
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+
+			if(canvas.getContext) 
+			{
+				var show = canvas.getContext('2d');
+				var w = canvas.width;
+				var h = canvas.height;
+
+				show.shadowColor = "white";
+				show.shadowOffsetX = 3;
+      			show.shadowOffsetY = 3;
+      			show.shadowBlur = 5;
+
+				Word = function(key) 
+				{
+					var r = getRandomInt(0, 255);
+    				var g = getRandomInt(0, 255);
+    				var b = getRandomInt(0, 255);
+					this.x = getRandomInt(0, w);
+					this.y = getRandomInt(10, h);
+					this.font = Math.random() * 300 + 'px arial'
+					this.speed = getRandomInt(1, 25);
+					this.color = "rgb(" + r + "," + g + "," + b + ")";
+					this.text = word;
+				}
+			
+
+				for(var i = 0; i < getRandomInt(10, 20); i++)
+				{
+					words_attr.push(new Word(word));
+				}
+
+				function animation() 
+				{
+					for (var i = 0; i < words_attr.length; i++) 
+					{					
+						show.font = words_attr[i].font;
+						show.fillText(words_attr[i].text, words_attr[i].x, words_attr[i].y);
+						show.fillStyle = words_attr[i].color;
+						words_attr[i].width = show.measureText(words_attr[i].text).width;
+					}
+				
+					move();
+				}
+
+				function move() 
+				{
+					for (var i = 0; i < words_attr.length; i++) 
+					{
+						if (words_attr[i].y > h) 
+						{
+							words_attr[i].y = -words_attr[i].width;
+							words_attr[i].x = getRandomInt(0, w);
+						}
+						else
+						{
+							words_attr[i].y += words_attr[i].speed;
+						}
+					}
+				}
+
+				setInterval(function() 
+				{
+					show.clearRect(0,0,w,h);
+					animation();
+				},24);
+			}
+		}
+	</script>
 
 </head>
-<body>
 
-	<center>
-		<h1>HELLO</h1>
-		<!-- <div class="shake-opacity shake-constant shake-constant--hover"><h1>YWC</h1></div> -->
-	</center>
+<body>
+	
+	<canvas id='floating_words'></canvas>
 
 </body>
 </html>
